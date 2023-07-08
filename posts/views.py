@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse#, JsonResponse
 from django.views.generic.list import ListView
 
@@ -10,11 +10,18 @@ def index(request):
 def post_list_view(request):
     return render(request, 'posts/post_list.html')
 
-def post_detail_view(request, id):
+def post_detail_view(request):
     return render(request, 'posts/post_detail.html')
 
-def post_create_view(request, id):
-    return render(request, 'posts/post_form.html')
+def post_create_view(request):
+    if request.method == 'GET':
+        return render(request, 'posts/post_form.html')
+    else:
+        image = request.FILES.get('image')
+        content = request.POST.get('content')
+        print(image)
+        print(content)
+        return redirect('index')
 
 def post_update_view(request, id):
     return render(request, 'posts/post_from.html')
